@@ -1,0 +1,28 @@
+Vagrant.configure("2") do |config|
+
+#Create Zabbix server
+    config.vm.define "Z-serv" do |zserv|
+	zserv.vm.box = "sbeliakou/centos"
+	zserv.vm.hostname = "Z-serv"
+	zserv.vm.network :private_network, ip: "172.33.33.33"
+	zserv.vm.provider "virtualbox" do |vb|
+	    vb.gui = false
+	    vb.memory = "2048"
+	    vb.name = "Z-serv"
+	end
+	zserv.vm.provision :shell, :path => "zabbix.sh"
+    end
+
+#Create Nginx Tomcat ZAgent server
+    config.vm.define "ntzserv" do |ntz|
+	ntz.vm.box = "sbeliakou/centos"
+	ntz.vm.hostname = "ntzserv"
+	ntz.vm.network :private_network, ip: "172.33.33.34"
+	ntz.vm.provider "virtualbox" do |vb|
+	    vb.gui = false
+	    vb.memory = "2048"
+	    vb.name = "ntzserv"
+	end
+	ntz.vm.provision :shell, :path => "ntz.sh"
+    end
+end
