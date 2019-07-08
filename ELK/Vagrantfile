@@ -1,0 +1,28 @@
+Vagrant.configure("2") do |config|
+
+#Create ELK server
+    config.vm.define "ELKserv" do |elkserv|
+	elkserv.vm.box = "sbeliakou/centos"
+	elkserv.vm.hostname = "ELKserv"
+	elkserv.vm.network :private_network, ip: "172.33.33.33"
+	elkserv.vm.provider "virtualbox" do |vb|
+	    vb.gui = false
+	    vb.memory = "1024"
+	    vb.name = "ELKserv"
+	end
+	elkserv.vm.provision :shell, :path => "elkserv.sh"
+    end
+
+#Create Tomcat server
+    config.vm.define "Tomserv" do |ts|
+	ts.vm.box = "sbeliakou/centos"
+	ts.vm.hostname = "Tomserv"
+	ts.vm.network :private_network, ip: "172.33.33.34"
+	ts.vm.provider "virtualbox" do |vb|
+	    vb.gui = false
+	    vb.memory = "1024"
+	    vb.name = "Tomserv"
+	end
+	ts.vm.provision :shell, :path => "tomcatstash.sh"
+    end
+end
